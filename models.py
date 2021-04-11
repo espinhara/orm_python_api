@@ -31,12 +31,30 @@ class Activities(Base):
     __tablename__ = 'activities'
     id = Column(Integer, primary_key=True)
     name = Column(String(80))
-    description = Column(String(150), index=True)
+    description = Column(String(150))
     person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship("Person")
 
     def __repr__(self):
         return "<Activities {}>".format(self.name)
+
+    def save(self):
+        db_session.add(self)
+        db_session.commit()
+
+    def delete(self):
+        db_session.delete(self)
+        db_session.commit()
+
+
+class Users(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    login = Column(String(20), unique=True)
+    password = Column(String(20))
+
+    def __repr__(self):
+        return "<Login {}>".format(self.login)
 
     def save(self):
         db_session.add(self)
